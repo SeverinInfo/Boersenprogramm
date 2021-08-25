@@ -5,11 +5,12 @@ import java.awt.event.ActionListener;
 
 public class UI  extends JFrame {
     public static CHART chart;
-    public static JButton optionsButton, buyButon, sellButton, exitOptionsButton;
+    public static JButton optionsButton, buyButon, sellButton, exitOptionsButton, randomButton;
     public static JPanel optionsPanel;
     public static JLabel purseLabel, shareLabel, priceLabel;
     public static boolean options;
     public static KEYHANDLER keyhandler;
+    public static int paperAmount;
 
     public static void main(String[] args) {
         new UI();
@@ -22,6 +23,7 @@ public class UI  extends JFrame {
       exitOptionsButton = new JButton("back");
       buyButon = new JButton("BUY");
       sellButton = new JButton("SELL");
+      randomButton = new JButton("RANDOM");
       optionsPanel = new JPanel();
       purseLabel = new JLabel("PURSE: ");
       shareLabel = new JLabel("SHARE: ");
@@ -34,6 +36,7 @@ public class UI  extends JFrame {
       addKeyListener(keyhandler);
       add(chart);
       options = false;
+      paperAmount = 1;
 
 
       optionsButton.setBounds(0, 0, 80, 20);
@@ -60,6 +63,17 @@ public class UI  extends JFrame {
       add(buyButon);
       sellButton.setBounds(530, 550, 70, 20);
       add(sellButton);
+      randomButton.setBounds(455, 510, 90, 20);
+      randomButton.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              new GENERATOR();
+              new STORAGE();
+              new CHART();
+              updateLabels();
+          }
+      });
+      add(randomButton);
 
       purseLabel.setBounds(30, 500, 100, 20);
       add(purseLabel);
@@ -70,6 +84,8 @@ public class UI  extends JFrame {
       priceLabel.setBounds(30, 560, 100, 20);
       add(priceLabel);
 
+      updateLabels();
+
 
       optionsPanel.setVisible(false);
       optionsPanel.setLayout(null);
@@ -77,6 +93,8 @@ public class UI  extends JFrame {
       optionsPanel.setBackground(Color.black);
       optionsPanel.addKeyListener(keyhandler);
       add(optionsPanel);
+
+
 
 
     }
@@ -98,6 +116,21 @@ public class UI  extends JFrame {
         optionsButton.setVisible(true);
         optionsButton.setEnabled(true);
 
+    }
+
+    public static void updateLabels(){
+        priceLabel.setText("PRICE: " + GENERATOR.generatedData[GENERATOR.generatorLenght - 1] + "$");
+
+        if(GENERATOR.generatedData[GENERATOR.generatorLenght - 1] - GENERATOR.generatedData[0] < 0){
+            shareLabel.setText("SHARE: "+ ((GENERATOR.generatedData[GENERATOR.generatorLenght - 1]) - (GENERATOR.generatedData[0]) + "$"));
+            shareLabel.setForeground(Color.red);
+        }
+        else {
+            shareLabel.setText("SHARE: "+ ((GENERATOR.generatedData[GENERATOR.generatorLenght - 1]) - (GENERATOR.generatedData[0]) + "$"));
+            shareLabel.setForeground(Color.green);
+        }
+
+        purseLabel.setText("PURSE: " + paperAmount * GENERATOR.generatedData[GENERATOR.generatorLenght - 1] + "$");
     }
 
 
