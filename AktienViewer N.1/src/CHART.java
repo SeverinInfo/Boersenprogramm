@@ -1,11 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CHART extends JPanel {
 public static int[] Value;
 public static JLabel bottScaleLabel,bottmidScaleLabel, midScaleLabel,uppmidScaleLabel, uppScaleLabel;
 public static int scale;
-
+public static String timeperiod = "month";
 
 
 
@@ -23,7 +28,7 @@ public static int scale;
         setVisible(true);
         setBackground(Color.darkGray);
         setLayout(null);
-        setBounds(200, 50, 600, 400);
+        setBounds(200, 70, 600, 400);
         Value = new int[STORAGE.Data.length];
         bottScaleLabel = new JLabel();
         bottScaleLabel.setBounds(0, 388, 50, 12);
@@ -52,14 +57,71 @@ public static int scale;
         @Override
         protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.setColor(Color.ORANGE);
-            for (int i = 1; i < 16; i++) {
-                g.drawLine(i * 40, 0, i * 40, 400);
-            }
+        //g.setColor(Color.ORANGE);
+        //    for (int i = 1; i < 16; i++) {
+         //       g.drawLine(i * 40, 0, i * 40, 400);
+          //  }
 
             g.setColor(Color.WHITE);
             for (int j = 0; j < STORAGE.Data.length - 1; j++) {
                 g.drawLine((j * 20) + 20, 400 - (STORAGE.Data[j] * 4), (j * 20) + 40, 400 - (STORAGE.Data[j + 1] * 4));
+            }
+
+            switch (timeperiod){
+                case "day":
+                    g.setColor(Color.orange);
+                    for (int i = 1; i < 6; i++) {
+                        g.drawLine(i * 100, 0, i * 100, 400);
+                    }
+                    break;
+                case "week":
+                    g.setColor(Color.orange);
+                    for (int i = 1; i < 7; i++) {
+                        g.drawLine(i * 85, 0, i * 85, 400);
+                    }
+                    break;
+                case "month":
+                    g.setColor(Color.orange);
+                    String month = new SimpleDateFormat("MM").format(Calendar.getInstance().getTime());
+                    System.out.println(month);
+                   /* if (month == "02" || month == "03" || month == "05" || month == "07" || month == "01" || month == "10" || month == "12"){
+                        g.setColor(Color.orange);
+                        for (int i = 1; i < 31; i++) {
+                            g.drawLine(i * 19, 0, i * 19, 400);
+                        }
+                    }
+                    else if (month == "08"){
+                        g.setColor(Color.orange);
+                        for (int i = 1; i < 28; i++) {
+                            g.drawLine(i * 21, 0, i * 21, 400);
+                        }
+
+                    }
+                    else if (month == "04" || month == "6" || month == "09" || month == "11") {
+                        g.setColor(Color.orange);
+                        for (int i = 1; i < 29; i++) {
+                            g.drawLine(i * 20, 0, i * 20, 400);
+                        }
+
+                    }
+
+                    */
+
+
+
+                    switch(month){
+                        case "08" :
+                            g.setColor(Color.orange);
+                            for (int i = 1; i < 31; i++) {
+                                g.drawLine(i * 19, 0, i * 19, 400);
+                            }
+                    }
+
+
+
+
+
+
             }
         super.repaint();
     }
@@ -100,6 +162,10 @@ public static int scale;
                 break;
 
         }
+    }
+
+    void changeTimeLine(String timeperiod){
+
     }
 
 

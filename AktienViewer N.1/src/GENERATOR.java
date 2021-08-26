@@ -14,7 +14,7 @@ public class GENERATOR {
         generatorLenght = 30;
         rd = new Random();
         generatedData = new int[generatorLenght];
-        for (int i = 0; i < generatedData.length; i++) {
+        for (int i = 0; i < generatorLenght; i++) {
             generatedData[i] = 1 + rd.nextInt(100);
 
         }
