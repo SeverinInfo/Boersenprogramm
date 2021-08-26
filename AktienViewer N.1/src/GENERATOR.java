@@ -11,11 +11,11 @@ public class GENERATOR {
 
 
     GENERATOR(){
-        generatorLenght = 30;
+        generatorLenght = 31;
         rd = new Random();
         generatedData = new int[generatorLenght];
         for (int i = 0; i < generatorLenght; i++) {
-            generatedData[i] = 1 + rd.nextInt(100);
+            generatedData[i] = rd.nextInt(10);
 
         }
 

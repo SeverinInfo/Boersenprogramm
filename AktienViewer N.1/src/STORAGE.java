@@ -14,8 +14,8 @@ public class STORAGE {
 
     STORAGE(){
         new GENERATOR();
-        Data = new int[GENERATOR.generatedData.length];
-        for (int i = 0; i < GENERATOR.generatedData.length; i++) {
+        Data = new int[GENERATOR.generatorLenght];
+        for (int i = 0; i < GENERATOR.generatorLenght; i++) {
             Data[i] = GENERATOR.generatedData[i];
         }
     }
