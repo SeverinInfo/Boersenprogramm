@@ -2,167 +2,59 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
-public class CHART extends JPanel {
-public static int[] Value;
+
+public class CHART  {
 public static JLabel bottScaleLabel,bottmidScaleLabel, midScaleLabel,uppmidScaleLabel, uppScaleLabel, xTimelabel;
-public static int scale;
+public static int scale = 10;
 public static String timeperiod = "day";
-public static JPanel BackgroundPanel;
+public static JPanel BPanel, MPanel;
 
 
+   public static void createChart(){
+        BPanel = new JPanel();
+        MPanel = new JPanel();
+        BPanel.setBounds(175, 65, 650, 450);
+        BPanel.setBackground(new Color(100, 100, 100));
+        BPanel.setLayout(null);
+        BPanel.setVisible(true);
+        MPanel.setVisible(true);
+        MPanel.setBackground(Color.darkGray);
+        MPanel.setLayout(null);
+        MPanel.setBounds(200, 90, 600, 400);
 
-    public static void main(String[] args) {
-         new UI();
+       //y beschriftunng
+       bottScaleLabel = new JLabel();
+       bottScaleLabel.setBounds(0, 419, 50, 12);
+       bottScaleLabel.setForeground(Color.orange);
+       BPanel.add(bottScaleLabel);
+       bottmidScaleLabel = new JLabel();
+       bottmidScaleLabel.setBounds(0, 319, 50, 12);
+       bottmidScaleLabel.setForeground(Color.orange);
+       BPanel.add(bottmidScaleLabel);
+       midScaleLabel = new JLabel();
+       midScaleLabel.setBounds(0, 219, 50, 12);
+       midScaleLabel.setForeground(Color.orange);
+       BPanel.add(midScaleLabel);
+       uppmidScaleLabel = new JLabel();
+       uppmidScaleLabel.setBounds(0,119, 50, 12);
+       uppmidScaleLabel.setForeground(Color.orange);
+       BPanel.add(uppmidScaleLabel);
+       uppScaleLabel = new JLabel();
+       uppScaleLabel.setBounds(0, 19, 50, 12);
+       uppScaleLabel.setForeground(Color.orange);
+       BPanel.add(uppScaleLabel);
 
+       //x beschriftung
+       xTimelabel = new JLabel("");
+       xTimelabel.setBounds(0, 430, 650, 20);
+       xTimelabel.setForeground(Color.orange);
+       BPanel.add(xTimelabel);
+
+       CHARTDRAWER chd = new CHARTDRAWER();
+       setupDraw(chd, 0, 0, 600, 400);
     }
-
-    CHART(){
-        new STORAGE();
-        STORAGE.DataSaver();
-        STORAGE.DataLoader();
-
-        BackgroundPanel = new JPanel();
-        BackgroundPanel.setBounds(175, 65, 650, 450);
-        BackgroundPanel.setBackground(new Color(100, 100, 100));
-        BackgroundPanel.setLayout(null);
-        BackgroundPanel.setVisible(true);
-        scale = 10;
-        setVisible(true);
-        setBackground(Color.darkGray);
-        setLayout(null);
-        setBounds(200, 90, 600, 400);
-        Value = new int[STORAGE.Data.length];
-
-        //y beschriftunng
-        bottScaleLabel = new JLabel();
-        bottScaleLabel.setBounds(0, 419, 50, 12);
-        bottScaleLabel.setForeground(Color.orange);
-        BackgroundPanel.add(bottScaleLabel);
-        bottmidScaleLabel = new JLabel();
-        bottmidScaleLabel.setBounds(0, 319, 50, 12);
-        bottmidScaleLabel.setForeground(Color.orange);
-        BackgroundPanel.add(bottmidScaleLabel);
-        midScaleLabel = new JLabel();
-        midScaleLabel.setBounds(0, 219, 50, 12);
-        midScaleLabel.setForeground(Color.orange);
-        BackgroundPanel.add(midScaleLabel);
-        uppmidScaleLabel = new JLabel();
-        uppmidScaleLabel.setBounds(0,119, 50, 12);
-        uppmidScaleLabel.setForeground(Color.orange);
-        BackgroundPanel.add(uppmidScaleLabel);
-        uppScaleLabel = new JLabel();
-        uppScaleLabel.setBounds(0, 19, 50, 12);
-        uppScaleLabel.setForeground(Color.orange);
-        BackgroundPanel.add(uppScaleLabel);
-
-
-
-        //x beschriftung
-        xTimelabel = new JLabel("");
-        xTimelabel.setBounds(0, 430, 650, 20);
-        xTimelabel.setForeground(Color.orange);
-        BackgroundPanel.add(xTimelabel);
-
-    }
-
-        @Override
-        protected void paintComponent(Graphics g){
-            super.paintComponent(g);
-            g.setColor(Color.orange);
-            switch (timeperiod){
-                case "day":
-                    for (int i = 1; i < 6; i++) {
-                        g.drawLine(i * 100, 0, i * 100, 400);
-                        setSize(600, 400);
-                    }
-                    break;
-                case "week":
-                    for (int i = 1; i < 7; i++) {
-                        g.drawLine(i * 85, 0, i * 85, 400);
-                        setSize(600, 400);
-                    }
-                    break;
-                case "month":
-                    String date = new SimpleDateFormat("MM").format(Calendar.getInstance().getTime());
-                    int month = Integer.parseInt(date);
-                    if (month == 8 || month == 3 || month == 5 || month == 7 || month == 1 || month == 10 || month == 12){
-                        for (int i = 1; i < 31; i++) {
-                            g.drawLine((i * 19) , 0, (i * 19) , 400);
-                            setSize(589, 400);
-                        }
-                    }
-                    else if (month == 2){
-                        for (int i = 1; i < 28; i++) {
-                            g.drawLine(i * 21, 0, i * 21, 400);
-                            setSize(588, 400);
-                        }
-                    }
-                    else if (month == 4 || month == 6 || month == 9 || month == 11) {
-                        for (int i = 1; i < 30; i++) {
-                            g.drawLine(i * 20, 0, i * 20, 400);
-                            setSize(600, 400);
-                        }
-                    }
-                    break;
-                case "year":
-                    for (int i = 1; i < 12; i++) {
-                        g.drawLine(i * 50, 0, i * 50, 400);
-                        setSize(600, 400);
-                    }
-            }       //oranenen Linien
-
-            g.setColor(Color.WHITE);
-            switch (scale){
-                case 5:
-                    UI.sc5Button.setBackground(Color.lightGray);
-                    UI.sc10Button.setBackground(new Color (100, 100, 100));
-                    UI.sc100Button.setBackground(new Color (100, 100, 100));
-                    UI.sc1000Button.setBackground(new Color(100, 100, 100));
-
-                    for (int j = 0; j < STORAGE.Data.length - 1; j++) {
-                        g.drawLine((j * 20), 400 - (STORAGE.Data[j] * 80), (j * 20) + 20, 400 - (STORAGE.Data[j + 1] * 80));
-                    }
-                    break;
-                case 10:
-                    UI.sc5Button.setBackground(new Color (100, 100, 100));
-                    UI.sc10Button.setBackground(Color.lightGray);
-                    UI.sc100Button.setBackground(new Color (100, 100, 100));
-                    UI.sc1000Button.setBackground(new Color(100, 100, 100));
-
-                    for (int j = 0; j < STORAGE.Data.length - 1; j++) {
-                        g.drawLine((j * 20), 400 - (STORAGE.Data[j] * 40), (j * 20) + 20, 400 - (STORAGE.Data[j + 1] * 40));
-                    }
-                    break;
-                case 100:
-                    UI.sc5Button.setBackground(new Color (100, 100, 100));
-                    UI.sc10Button.setBackground(new Color (100, 100, 100));
-                    UI.sc100Button.setBackground(Color.lightGray);
-                    UI.sc1000Button.setBackground(new Color(100, 100, 100));
-
-                    for (int j = 0; j < STORAGE.Data.length - 1; j++) {
-                        g.drawLine((j * 20), 400 - (STORAGE.Data[j] * 4), (j * 20) + 20, 400 - (STORAGE.Data[j + 1] * 4));
-                    }
-                    break;
-                case 1000:
-                    UI.sc5Button.setBackground(new Color (100, 100, 100));
-                    UI.sc10Button.setBackground(new Color (100, 100, 100));
-                    UI.sc100Button.setBackground(new Color (100, 100, 100));
-                    UI.sc1000Button.setBackground(Color.lightGray);
-
-                    for (int j = 0; j < STORAGE.Data.length - 1; j++) {
-                        g.drawLine((j * 20), 400 - (STORAGE.Data[j] * 4/10), (j * 20) + 20, 400 - (STORAGE.Data[j + 1] * 4/10));
-                    }
-                    break;
-            }            //graphen
-
-            super.repaint();
-            updateInfo();
-        }
-
-
 
     public static void updateInfo(){
         switch (scale){
@@ -229,5 +121,31 @@ public static JPanel BackgroundPanel;
                 xTimelabel.setText("------------------------------------------------------------------------------------------------------------------------------------------------------" + year);
                 break;
         }
+
+
+      /*  UI.priceLabel.setText("PRICE: " + GENERATOR.dayData.get(GENERATOR.dayData.size() - 1) + "$");
+
+        if(GENERATOR.dayData.get(GENERATOR.dayData.size() - 1) - GENERATOR.dayData.get(0) < 0){
+            UI.shareLabel.setText("SHARE: "+ ((GENERATOR.dayData.get(GENERATOR.dayData.size() - 1)) - (GENERATOR.dayData.get(0)) + "$"));
+            UI.shareLabel.setForeground(Color.red);
+        }
+        else {
+            UI.shareLabel.setText("SHARE: "+ ((GENERATOR.dayData.get(GENERATOR.dayData.size() - 1)) - (GENERATOR.dayData.get(0)) + "$"));
+            UI.shareLabel.setForeground(Color.green);
+        }
+
+        UI.purseLabel.setText("PURSE: " + UI.paperAmount * GENERATOR.dayData.get(GENERATOR.dayData.size() - 1) + "$");
+
+       */
     }
+
+
+
+    public static void setupDraw(JLabel draw, int x, int y, int width, int height){
+        draw.setBounds(x, y, width, height);
+        draw.setVisible(true);
+        MPanel.add(draw);
+    }
+
+
 }

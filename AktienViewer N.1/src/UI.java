@@ -2,20 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 
 public class UI  extends JFrame {
-    public static CHART chart;
-    public static JButton optionsButton, buyButon, sellButton, exitOptionsButton, randomButton, DButton, WButton, MButton, YButton, sc5Button, sc10Button, sc100Button, sc1000Button;
+    public static JButton optionsButton, buyButon, sellButton, exitOptionsButton, DButton, WButton, MButton, YButton, sc5Button, sc10Button, sc100Button, sc1000Button, speedupButton;
     public static JPanel optionsPanel;
     public static JLabel purseLabel, shareLabel, priceLabel, timePeriodLabel, scaleLabel;
     public static boolean options;
     public static KEYHANDLER keyhandler;
     public static int paperAmount;
-
-    public static void main(String[] args) {
-        new UI();
-    }
 
     UI(){
       keyhandler = new KEYHANDLER();
@@ -23,16 +20,15 @@ public class UI  extends JFrame {
       WButton = new JButton("w");
       MButton = new JButton("m");
       YButton = new JButton("y");
+      speedupButton = new JButton("SPEEDUP");
       sc5Button = new JButton("5");
       sc10Button = new JButton("10");
       sc100Button = new JButton("100");
       sc1000Button = new JButton("1000");
-      chart = new CHART();
       optionsButton = new JButton("options");
       exitOptionsButton = new JButton("back");
       buyButon = new JButton("BUY");
       sellButton = new JButton("SELL");
-      randomButton = new JButton("RANDOM");
       optionsPanel = new JPanel();
       purseLabel = new JLabel("PURSE: ");
       shareLabel = new JLabel("SHARE: ");
@@ -44,10 +40,51 @@ public class UI  extends JFrame {
       setLayout(null);
       setResizable(false);
       getContentPane().setBackground(Color.gray);
-      setDefaultCloseOperation(EXIT_ON_CLOSE);
+      //setDefaultCloseOperation(EXIT_ON_CLOSE);
+      addWindowListener(new WindowListener() {
+          @Override
+          public void windowOpened(WindowEvent e) {
+
+          }
+
+          @Override
+          public void windowClosing(WindowEvent e) {
+
+          }
+
+          @Override
+          public void windowClosed(WindowEvent e) {
+              STORAGE.DataSaver("day");
+              STORAGE.DataSaver("week");
+              STORAGE.DataSaver("month");
+              STORAGE.DataSaver("year");
+              System.exit(EXIT_ON_CLOSE);
+
+          }
+
+          @Override
+          public void windowIconified(WindowEvent e) {
+
+          }
+
+          @Override
+          public void windowDeiconified(WindowEvent e) {
+
+          }
+
+          @Override
+          public void windowActivated(WindowEvent e) {
+
+          }
+
+          @Override
+          public void windowDeactivated(WindowEvent e) {
+
+          }
+      });
       addKeyListener(keyhandler);
-      add(chart);
-      add(CHART.BackgroundPanel);
+      add(CHART.MPanel);
+      add(CHART.BPanel);
       options = false;
       paperAmount = 1;
 
@@ -72,6 +109,22 @@ public class UI  extends JFrame {
             }
         });
       optionsPanel.add(exitOptionsButton);
+
+      speedupButton.setBounds(450, 540, 100, 20);
+      speedupButton.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              GENERATOR.updateTimeDay = 15;
+              GENERATOR.updateTimeWeek = 15;
+              GENERATOR.updateTimeMonth = 15;
+              GENERATOR.updateTimeYear = 15;
+              GENERATOR.createDayData();
+              GENERATOR.createWeekData();
+              GENERATOR.createMonthData();
+              GENERATOR.createYearData();
+          }
+      });
+      add(speedupButton);
 
       DButton.setBounds(410, 35, 45, 20);
       DButton.addActionListener(new ActionListener() {
@@ -151,17 +204,6 @@ public class UI  extends JFrame {
       sellButton.setBounds(530, 580, 70, 20);
       add(sellButton);
 
-      randomButton.setBounds(455, 540, 90, 20);
-      randomButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              new STORAGE();
-              updateLabels();
-          }
-      });
-      add(randomButton);
-
-
       //Label
       purseLabel.setBounds(30, 500, 100, 20);
       add(purseLabel);
@@ -178,9 +220,6 @@ public class UI  extends JFrame {
       scaleLabel.setBounds(70, 240, 70, 20);
       add(scaleLabel);
 
-      updateLabels();
-
-
       optionsPanel.setVisible(false);
       optionsPanel.setLayout(null);
       optionsPanel.setBounds(0, 0, 1000, 400);
@@ -196,52 +235,31 @@ public class UI  extends JFrame {
     }
     public static void openOptions(){
         optionsPanel.setVisible(true);
-        chart.setVisible(false);
+        CHART.MPanel.setVisible(false);
         sellButton.setVisible(false);
         buyButon.setVisible(false);
         optionsButton.setVisible(false);
         optionsButton.setEnabled(false);
-        CHART.BackgroundPanel.setVisible(false);
+        CHART.BPanel.setVisible(false);
         timePeriodLabel.setVisible(false);
         DButton.setVisible(false);
         WButton.setVisible(false);
         MButton.setVisible(false);
         YButton.setVisible(false);
-        randomButton.setVisible(false);
-
     }
 
     public static void closeOptions(){
         optionsPanel.setVisible(false);
-        chart.setVisible(true);
+        CHART.MPanel.setVisible(true);
         sellButton.setVisible(true);
         buyButon.setVisible(true);
         optionsButton.setVisible(true);
         optionsButton.setEnabled(true);
-        CHART.BackgroundPanel.setVisible(true);
+        CHART.BPanel.setVisible(true);
         timePeriodLabel.setVisible(true);
         DButton.setVisible(true);
         WButton.setVisible(true);
         MButton.setVisible(true);
         YButton.setVisible(true);
-        randomButton.setVisible(true);
-
     }
-
-    public static void updateLabels(){
-        priceLabel.setText("PRICE: " + GENERATOR.generatedData[GENERATOR.generatorLenght - 1] + "$");
-
-        if(GENERATOR.generatedData[GENERATOR.generatorLenght - 1] - GENERATOR.generatedData[0] < 0){
-            shareLabel.setText("SHARE: "+ ((GENERATOR.generatedData[GENERATOR.generatorLenght - 1]) - (GENERATOR.generatedData[0]) + "$"));
-            shareLabel.setForeground(Color.red);
-        }
-        else {
-            shareLabel.setText("SHARE: "+ ((GENERATOR.generatedData[GENERATOR.generatorLenght - 1]) - (GENERATOR.generatedData[0]) + "$"));
-            shareLabel.setForeground(Color.green);
-        }
-
-        purseLabel.setText("PURSE: " + paperAmount * GENERATOR.generatedData[GENERATOR.generatorLenght - 1] + "$");
-    }
-
-
 }
