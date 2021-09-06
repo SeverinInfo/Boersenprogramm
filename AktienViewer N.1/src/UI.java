@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -11,11 +9,11 @@ public class UI  extends JFrame {
     public static JPanel optionsPanel;
     public static JLabel purseLabel, shareLabel, priceLabel, timePeriodLabel, scaleLabel;
     public static boolean options;
-    public static KEYHANDLER keyhandler;
+    public static KeyHandler keyhandler;
     public static int paperAmount;
 
     UI(){
-      keyhandler = new KEYHANDLER();
+      keyhandler = new KeyHandler();
       DButton = new JButton("d");
       WButton = new JButton("w");
       MButton = new JButton("m");
@@ -38,6 +36,7 @@ public class UI  extends JFrame {
       setSize(1000, 700);
       setVisible(true);
       setLayout(null);
+      setDefaultCloseOperation(EXIT_ON_CLOSE);
       setResizable(false);
       getContentPane().setBackground(Color.gray);
       //setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -54,10 +53,10 @@ public class UI  extends JFrame {
 
           @Override
           public void windowClosed(WindowEvent e) {
-              STORAGE.DataSaver("day");
-              STORAGE.DataSaver("week");
-              STORAGE.DataSaver("month");
-              STORAGE.DataSaver("year");
+              Storage.DataSaver("day");
+              Storage.DataSaver("week");
+              Storage.DataSaver("month");
+              Storage.DataSaver("year");
               System.exit(EXIT_ON_CLOSE);
 
           }
@@ -83,119 +82,70 @@ public class UI  extends JFrame {
           }
       });
       addKeyListener(keyhandler);
-      add(CHART.MPanel);
-      add(CHART.BPanel);
+      add(Chart.MPanel);
+      add(Chart.BPanel);
       options = false;
       paperAmount = 1;
 
 
       //Buttons
       optionsButton.setBounds(0, 0, 80, 20);
-      optionsButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              openOptions();
-              options = true;
-          }
+      optionsButton.addActionListener(e -> {
+          openOptions();
+          options = true;
       });
       add(optionsButton);
 
       exitOptionsButton.setBounds(0,0,80, 20);
-      exitOptionsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                closeOptions();
-                options = false;
-            }
-        });
+      exitOptionsButton.addActionListener(e -> {
+          closeOptions();
+          options = false;
+      });
       optionsPanel.add(exitOptionsButton);
 
       speedupButton.setBounds(450, 540, 100, 20);
-      speedupButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              GENERATOR.updateTimeDay = 15;
-              GENERATOR.updateTimeWeek = 15;
-              GENERATOR.updateTimeMonth = 15;
-              GENERATOR.updateTimeYear = 15;
-              GENERATOR.createDayData();
-              GENERATOR.createWeekData();
-              GENERATOR.createMonthData();
-              GENERATOR.createYearData();
-          }
+      speedupButton.addActionListener(e -> {
+          Generator.updateTimeDay = 15;
+          Generator.updateTimeWeek = 15;
+          Generator.updateTimeMonth = 15;
+          Generator.updateTimeYear = 15;
+          Generator.createDayData();
+          Generator.createWeekData();
+          Generator.createMonthData();
+          Generator.createYearData();
       });
       add(speedupButton);
 
       DButton.setBounds(410, 35, 45, 20);
-      DButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              CHART.timeperiod = "day";
-          }
-      });
+      DButton.addActionListener(e -> Chart.timePeriod = "day");
       add(DButton);
 
       WButton.setBounds(455, 35, 45, 20);
-      WButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CHART.timeperiod = "week";
-            }
-        });
+      WButton.addActionListener(e -> Chart.timePeriod = "week");
       add(WButton);
 
       MButton.setBounds(500, 35, 45, 20);
-      MButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CHART.timeperiod = "month";
-            }
-        });
+      MButton.addActionListener(e -> Chart.timePeriod = "month");
       add(MButton);
 
       YButton.setBounds(545 ,35, 45, 20);
-      YButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              CHART.timeperiod = "year";
-          }
-      });
+      YButton.addActionListener(e -> Chart.timePeriod = "year");
       add(YButton);
 
       sc5Button.setBounds(70, 260, 70, 20);
-      sc5Button.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              CHART.scale = 5;
-          }
-      });
+      sc5Button.addActionListener(e -> Chart.scale = 5);
       add(sc5Button);
 
       sc10Button.setBounds(70, 280, 70, 20);
-      sc10Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CHART.scale = 10;
-            }
-        });
+      sc10Button.addActionListener(e -> Chart.scale = 10);
       add(sc10Button);
 
       sc100Button.setBounds(70, 300, 70, 20);
-      sc100Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CHART.scale = 100;
-            }
-        });
+      sc100Button.addActionListener(e -> Chart.scale = 100);
       add(sc100Button);
 
       sc1000Button.setBounds(70, 320, 70, 20);
-      sc1000Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CHART.scale = 1000;
-            }
-        });
+      sc1000Button.addActionListener(e -> Chart.scale = 1000);
       add(sc1000Button);
 
       buyButon.setBounds(400, 580, 70, 20);
@@ -235,12 +185,12 @@ public class UI  extends JFrame {
     }
     public static void openOptions(){
         optionsPanel.setVisible(true);
-        CHART.MPanel.setVisible(false);
+        Chart.MPanel.setVisible(false);
         sellButton.setVisible(false);
         buyButon.setVisible(false);
         optionsButton.setVisible(false);
         optionsButton.setEnabled(false);
-        CHART.BPanel.setVisible(false);
+        Chart.BPanel.setVisible(false);
         timePeriodLabel.setVisible(false);
         DButton.setVisible(false);
         WButton.setVisible(false);
@@ -250,12 +200,12 @@ public class UI  extends JFrame {
 
     public static void closeOptions(){
         optionsPanel.setVisible(false);
-        CHART.MPanel.setVisible(true);
+        Chart.MPanel.setVisible(true);
         sellButton.setVisible(true);
         buyButon.setVisible(true);
         optionsButton.setVisible(true);
         optionsButton.setEnabled(true);
-        CHART.BPanel.setVisible(true);
+        Chart.BPanel.setVisible(true);
         timePeriodLabel.setVisible(true);
         DButton.setVisible(true);
         WButton.setVisible(true);

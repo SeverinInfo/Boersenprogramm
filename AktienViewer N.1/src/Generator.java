@@ -3,12 +3,12 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GENERATOR {
+public class Generator {
     static Random rd;
-    public static ArrayList <Integer> dayData = new ArrayList<Integer>();
-    public static ArrayList <Integer> weekData = new ArrayList<Integer>();
-    public static ArrayList <Integer> monthData = new ArrayList<Integer>();
-    public static ArrayList <Integer> yearData = new ArrayList<Integer>();
+    public static ArrayList <Integer> dayData = new ArrayList<>();
+    public static ArrayList <Integer> weekData = new ArrayList<>();
+    public static ArrayList <Integer> monthData = new ArrayList<>();
+    public static ArrayList <Integer> yearData = new ArrayList<>();
     public static Timer timer = new Timer();
     //public static int updateTimeDay = 288000;
     public static int updateTimeDay = 2880;
@@ -20,105 +20,105 @@ public class GENERATOR {
     public static int updateTimeYear = 10512;
 
     public static void createDayData() {
-            if(STORAGE.dayfile.length() == 0){
+            if(Storage.dayFile.length() == 0){
                 System.out.print("Dempty");
-                dayData = new ArrayList<Integer>();
+                dayData = new ArrayList<>();
                 for (int i = 0; i < 300; i++) {
                     dayData.add(0);
                 }
-                STORAGE.DataSaver("day");
+                Storage.DataSaver("day");
             }
             else{
                 System.out.print("Dfull");
-                STORAGE.DataLoader("day");
+                Storage.DataLoader("day");
             }
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    STORAGE.DataLoader("day");
+                    Storage.DataLoader("day");
                         rd = new Random();
                         dayData.remove(0);
-                        dayData.add(rd.nextInt(CHART.scale + 1));
+                        dayData.add(rd.nextInt(Chart.scale + 1));
                         //System.out.println(dayData.toString());
-                    STORAGE.DataSaver("day");
+                    Storage.DataSaver("day");
                 }
             }, 0, updateTimeDay);
         }
 
     public static void createWeekData() {
-        if(STORAGE.weekfile.length() == 0){
+        if(Storage.weekFile.length() == 0){
             System.out.print("Wempty");
-            weekData = new ArrayList<Integer>();
+            weekData = new ArrayList<>();
             for (int i = 0; i < 300; i++) {
                 weekData.add(0);
             }
-            STORAGE.DataSaver("week");
+            Storage.DataSaver("week");
         }
         else{
             System.out.print("Wfull");
-            STORAGE.DataLoader("week");
+            Storage.DataLoader("week");
         }
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                STORAGE.DataLoader("week");
+                Storage.DataLoader("week");
                 rd = new Random();
                 weekData.remove(0);
-                weekData.add(rd.nextInt(CHART.scale + 1));
+                weekData.add(rd.nextInt(Chart.scale + 1));
                 //System.out.println(weekData.toString());
-                STORAGE.DataSaver("week");
+                Storage.DataSaver("week");
             }
         }, 0, updateTimeWeek);
     }
 
     public static void createMonthData() {
-        if(STORAGE.monthfile.length() == 0){
+        if(Storage.monthFile.length() == 0){
             System.out.print("Mempty");
-            monthData = new ArrayList<Integer>();
+            monthData = new ArrayList<>();
             for (int i = 0; i < 300; i++) {
                 monthData.add(0);
             }
-            STORAGE.DataSaver("month");
+            Storage.DataSaver("month");
         }
         else{
             System.out.print("Mfull");
-            STORAGE.DataLoader("month");
+            Storage.DataLoader("month");
         }
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                STORAGE.DataLoader("month");
+                Storage.DataLoader("month");
                 rd = new Random();
                 monthData.remove(0);
-                monthData.add(rd.nextInt(CHART.scale + 1));
+                monthData.add(rd.nextInt(Chart.scale + 1));
                 //System.out.println(monthData.toString());
-                STORAGE.DataSaver("month");
+                Storage.DataSaver("month");
             }
         }, 0, updateTimeMonth);
     }
 
     public static void createYearData() {
-        if(STORAGE.yearfile.length() == 0){
+        if(Storage.yearFile.length() == 0){
             System.out.print("Yempty");
-            yearData = new ArrayList<Integer>();
+            yearData = new ArrayList<>();
             for (int i = 0; i < 300; i++) {
                 yearData.add(0);
             }
-            STORAGE.DataSaver("year");
+            Storage.DataSaver("year");
         }
         else{
             System.out.print("Yfull");
-            STORAGE.DataLoader("year");
+            Storage.DataLoader("year");
         }
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                STORAGE.DataLoader("year");
+                Storage.DataLoader("year");
                 rd = new Random();
                 yearData.remove(0);
-                yearData.add(rd.nextInt(CHART.scale + 1));
+                yearData.add(rd.nextInt(Chart.scale + 1));
                 //System.out.println(yearData.toString());
-                STORAGE.DataSaver("year");
+                Storage.DataSaver("year");
             }
         }, 0, updateTimeYear);
     }

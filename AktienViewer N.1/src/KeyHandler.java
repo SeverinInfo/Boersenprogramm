@@ -1,7 +1,7 @@
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-public class KEYHANDLER implements KeyListener {
+public class KeyHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -10,19 +10,19 @@ public class KEYHANDLER implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        /*
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            /*System.out.println("enter");
-            if(UI.options == true){
+            System.out.println("enter");
+            if(UI.options == false){
                 UI.closeOptions();
-                UI.options = false;
             }
             else{
                 UI.openOptions();
-                UI.options = true;
             }
 
-             */
+
         }
+        */
 
     }
 
